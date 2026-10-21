@@ -1,7 +1,17 @@
 import axios from 'axios';
 
+const LIVE_RENDER_URL = 'https://xclone-di8o.onrender.com';
+
+const API_BASE =
+  import.meta.env.VITE_API_BASE_URL ||
+  (import.meta.env.PROD ? LIVE_RENDER_URL : 'http://localhost:5000');
+
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  `${API_BASE}/api`;
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
+  baseURL: API_URL
 });
 
 api.interceptors.request.use(config => {
@@ -40,8 +50,7 @@ export const registerRequest = details => api.post('/auth/signup', details);
 export const getMediaUrl = path => {
   if (!path) return '';
   if (path.startsWith('http://') || path.startsWith('https://')) return path;
-  const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
-  return `${baseUrl}${path.startsWith('/') ? '' : '/'}${path}`;
+  return `${API_BASE}${path.startsWith('/') ? '' : '/'}${path}`;
 };
 
 export default api;

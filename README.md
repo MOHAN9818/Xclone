@@ -2,6 +2,9 @@
 
 A full-stack Twitter / X social network clone built with React, Node.js, Express, and MongoDB.
 
+🌐 **Live Backend Deployment**: [https://xclone-di8o.onrender.com](https://xclone-di8o.onrender.com)  
+🏥 **Health Check API**: [https://xclone-di8o.onrender.com/api/health](https://xclone-di8o.onrender.com/api/health)
+
 ---
 
 ## ✨ Features
@@ -29,23 +32,21 @@ twitterclone/
 │   │   ├── components/     # UI Components (Navbar, Sidebar, Post, CreatePost, Comment, etc.)
 │   │   ├── context/        # Auth Context & Provider
 │   │   ├── pages/          # Home, Profile, Login, Register
-│   │   ├── services/       # Centralized Axios API client
+│   │   ├── services/       # Centralized Axios API client (Connected to Render)
 │   │   ├── App.jsx         # Routes & Layout
 │   │   └── index.css       # Twitter-inspired design system
-│   ├── .env.example        # Client environment template
 │   ├── package.json
 │   └── vite.config.js
-├── server/                 # Express REST API (Node.js & MongoDB)
-│   ├── config/             # Database connection
+├── server/                 # Express REST API (Node.js & MongoDB Atlas)
+│   ├── config/             # Database connection (MongoDB Atlas with DNS fallback)
 │   ├── controllers/        # Business logic (Auth, Posts, Users)
 │   ├── middleware/         # JWT Auth and Multer Upload middleware
 │   ├── models/             # Mongoose schemas (User, Post, Comment, Follow)
 │   ├── routes/             # API routes (/api/auth, /api/tweets, /api/users)
 │   ├── uploads/            # Uploaded images directory
-│   ├── .env.example        # Server environment template
 │   ├── package.json
-│   └── server.js           # Server entry point & health check
-├── .env.example            # Root environment template
+│   └── server.js           # Server entry point & health check (0.0.0.0 host binding)
+├── .env.example            # Public repository environment template
 ├── .gitignore              # Comprehensive secrets & build exclusion rules
 └── README.md
 ```
@@ -55,7 +56,7 @@ twitterclone/
 ## 🔒 Security & Secrets Protection
 
 A strict `.gitignore` is in place to ensure that Git **never** tracks or exposes sensitive credentials, secret keys, or environment files:
-- All `.env` and `.env.*` files are ignored (only `.env.example` templates are tracked).
+- All `.env` and `.env.*` files are ignored (only `.env.example` template is tracked).
 - Private keys (`*.pem`, `*.key`, `*.cert`), certificates, and token files are ignored.
 - Build artifacts (`dist/`) and dependency folders (`node_modules/`) are strictly excluded.
 - User-uploaded assets in `server/uploads/*` are ignored while preserving directory structure via `.gitkeep`.
@@ -63,13 +64,6 @@ A strict `.gitignore` is in place to ensure that Git **never** tracks or exposes
 ---
 
 ## 🚀 Getting Started
-
-### Prerequisites
-
-- [Node.js](https://nodejs.org/) (v18 or higher recommended)
-- [MongoDB](https://www.mongodb.com/) (Local instance running on `mongodb://localhost:27017` or MongoDB Atlas)
-
----
 
 ### 1. Backend Setup
 
@@ -83,18 +77,19 @@ A strict `.gitignore` is in place to ensure that Git **never** tracks or exposes
    npm install
    ```
 
-3. (Optional) Create a `.env` file based on `.env.example`:
-   ```bash
-   cp .env.example .env
+3. Configure your local `.env`:
+   ```env
+   PORT=5000
+   MONGO_URI=mongodb+srv://mohangalla2006_db_user:<password>@cluster0.s5bunjq.mongodb.net/twitterclone?retryWrites=true&w=majority
+   JWT_SECRET=supersecretjwtkey_12345
    ```
-   *By default, the server connects to `mongodb://localhost:27017/twitterclone` on port `5000`.*
 
 4. Start the server:
    ```bash
    # Development mode with auto-reload
    npm run dev
 
-   # Or standard start
+   # Production mode
    npm start
    ```
 
@@ -112,41 +107,37 @@ A strict `.gitignore` is in place to ensure that Git **never** tracks or exposes
    npm install
    ```
 
-3. (Optional) Create a `.env` file if pointing to a non-default backend port:
-   ```bash
-   cp .env.example .env
-   ```
-
-4. Start the Vite development server:
+3. Start the Vite development server:
    ```bash
    npm run dev
    ```
 
-5. Open your browser and navigate to `http://localhost:5173`.
+4. Open your browser and navigate to `http://localhost:5173`.  
+   *By default, the client routes to your live Render backend `https://xclone-di8o.onrender.com` in production builds, or `http://localhost:5000` in local dev.*
 
 ---
 
-## 📡 API Reference
+## 📡 Live API Reference
 
 ### Health Check
-- `GET /api/health` - Check API and server status
+- `GET https://xclone-di8o.onrender.com/api/health` - Check API and server status
 
 ### Authentication
-- `POST /api/auth/signup` - Register a new account (`username`, `email`, `password`)
-- `POST /api/auth/login` - Authenticate user (`email`, `password`)
+- `POST https://xclone-di8o.onrender.com/api/auth/signup` - Register a new account (`username`, `email`, `password`)
+- `POST https://xclone-di8o.onrender.com/api/auth/login` - Authenticate user (`email`, `password`)
 
 ### Tweets & Posts
-- `GET /api/tweets` - Get all tweets (newest first, populated with author and comments)
-- `POST /api/tweets` - Create a tweet (Multipart form: `content`, optional `image`) [Auth Required]
-- `DELETE /api/tweets/:id` - Delete tweet by ID [Auth Required & Author Only]
-- `PUT /api/tweets/like/:id` - Toggle like / unlike on a tweet [Auth Required]
-- `POST /api/tweets/:id/comments` - Reply to a tweet (`content`) [Auth Required]
+- `GET https://xclone-di8o.onrender.com/api/tweets` - Get all tweets (newest first)
+- `POST https://xclone-di8o.onrender.com/api/tweets` - Create a tweet (Multipart form: `content`, optional `image`) [Auth Required]
+- `DELETE https://xclone-di8o.onrender.com/api/tweets/:id` - Delete tweet by ID [Auth Required & Author Only]
+- `PUT https://xclone-di8o.onrender.com/api/tweets/like/:id` - Toggle like / unlike on a tweet [Auth Required]
+- `POST https://xclone-di8o.onrender.com/api/tweets/:id/comments` - Reply to a tweet (`content`) [Auth Required]
 
 ### Users & Social
-- `GET /api/users` - Get list of users with follow status [Auth Required]
-- `GET /api/users/me` - Get logged-in user profile & stats [Auth Required]
-- `GET /api/users/:id` - Get public profile of a user [Auth Required]
-- `PUT /api/users/:id/follow` - Toggle follow / unfollow a user [Auth Required]
+- `GET https://xclone-di8o.onrender.com/api/users` - Get list of users with follow status [Auth Required]
+- `GET https://xclone-di8o.onrender.com/api/users/me` - Get logged-in user profile & stats [Auth Required]
+- `GET https://xclone-di8o.onrender.com/api/users/:id` - Get public profile of a user [Auth Required]
+- `PUT https://xclone-di8o.onrender.com/api/users/:id/follow` - Toggle follow / unfollow a user [Auth Required]
 
 ---
 
