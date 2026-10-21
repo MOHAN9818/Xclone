@@ -2,11 +2,14 @@ import axios from 'axios';
 
 const LIVE_RENDER_URL = 'https://xclone-di8o.onrender.com';
 
-const API_BASE =
-  import.meta.env.VITE_API_BASE_URL || LIVE_RENDER_URL;
+const rawBase = (import.meta.env.VITE_API_BASE_URL || LIVE_RENDER_URL).trim();
+export const API_BASE = rawBase.replace(/\/api\/?$/i, '').replace(/\/+$/, '');
 
-const API_URL =
-  import.meta.env.VITE_API_URL || `${API_BASE}/api`;
+let rawApiUrl = (import.meta.env.VITE_API_URL || `${API_BASE}/api`).trim();
+if (!rawApiUrl.toLowerCase().endsWith('/api') && !rawApiUrl.toLowerCase().endsWith('/api/')) {
+  rawApiUrl = `${rawApiUrl.replace(/\/+$/, '')}/api`;
+}
+export const API_URL = rawApiUrl;
 
 const api = axios.create({
   baseURL: API_URL
