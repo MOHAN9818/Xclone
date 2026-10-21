@@ -3,12 +3,10 @@ import axios from 'axios';
 const LIVE_RENDER_URL = 'https://xclone-di8o.onrender.com';
 
 const API_BASE =
-  import.meta.env.VITE_API_BASE_URL ||
-  (import.meta.env.PROD ? LIVE_RENDER_URL : 'http://localhost:5000');
+  import.meta.env.VITE_API_BASE_URL || LIVE_RENDER_URL;
 
 const API_URL =
-  import.meta.env.VITE_API_URL ||
-  `${API_BASE}/api`;
+  import.meta.env.VITE_API_URL || `${API_BASE}/api`;
 
 const api = axios.create({
   baseURL: API_URL
