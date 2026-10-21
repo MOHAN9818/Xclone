@@ -1,0 +1,95 @@
+# ==========================================
+# SECRETS & ENVIRONMENT FILES (NEVER COMMIT)
+# ==========================================
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+*.env.*
+!*.env.example
+!.env.example
+
+# Private keys, certificates, secrets
+*.pem
+*.key
+*.cert
+*.crt
+*.pfx
+*.p12
+*.pkcs12
+id_rsa*
+id_ecdsa*
+id_ed25519*
+*.pub
+secret*
+secrets/
+private/
+credentials.json
+service-account*.json
+token.json
+
+# ==========================================
+# DEPENDENCIES
+# ==========================================
+node_modules/
+*/node_modules/
+**/node_modules/
+.pnp
+.pnp.js
+
+# ==========================================
+# BUILD OUTPUTS & ARTIFACTS
+# ==========================================
+dist/
+*/dist/
+**/dist/
+build/
+*/build/
+**/build/
+out/
+.vite/
+*/.vite/
+**/.vite/
+
+# ==========================================
+# USER UPLOADS & RUNTIME MEDIA
+# ==========================================
+server/uploads/*
+!server/uploads/.gitkeep
+uploads/*
+!uploads/.gitkeep
+
+# ==========================================
+# LOGS & TEMPORARY FILES
+# ==========================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ==========================================
+# OS & EDITOR ARTIFACTS
+# ==========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+[Dd]esktop.ini
+
+# IDEs
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
